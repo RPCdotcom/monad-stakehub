@@ -39,7 +39,7 @@ export const config = createConfig({
   },
   // Sadece injected connector kullan (MetaMask)
   connectors: [
-    injected({ target: 'metaMask' }),
+    injected(),
   ],
 });
 

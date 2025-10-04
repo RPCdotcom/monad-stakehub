@@ -4,10 +4,11 @@ import { injected } from 'wagmi/connectors';
 
 export const ConnectWallet = () => {
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect({
-    connector: injected({ target: 'metaMask' }), // Sadece MetaMask'ı hedefle
-  });
+  const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
+
+  // MetaMask konektörünü bul
+  const metaMaskConnector = connectors.find(c => c.type === 'injected');
 
   if (isConnected)
     return (
@@ -28,7 +29,7 @@ export const ConnectWallet = () => {
 
   return (
     <button
-      onClick={() => connect()}
+      onClick={() => metaMaskConnector && connect({ connector: metaMaskConnector })}
       className="rounded-md bg-blue-500 px-3 py-2 text-sm font-medium text-white hover:bg-blue-600"
     >
       Connect Wallet
