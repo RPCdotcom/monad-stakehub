@@ -67,19 +67,19 @@ export default function Portfolio() {
   }
   
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="page-container">
       {/* Portfolio Header */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+      <div className="page-header flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Portfolyom</h1>
-          <p className="text-secondary">Stake işlemlerinizi ve ödüllerinizi buradan takip edebilirsiniz</p>
+          <h1 className="page-title">Portfolyom</h1>
+          <p className="page-description">Stake işlemlerinizi ve ödüllerinizi buradan takip edebilirsiniz</p>
         </div>
         
         <div className="flex items-center gap-4">
           <button 
             onClick={() => userStakes.length > 0 && handleClaimRewards(userStakes[0].validator.address)}
             disabled={totalRewards <= 0 || userStakes.length === 0}
-            className={`primary-button flex items-center gap-2 ${(totalRewards <= 0 || userStakes.length === 0) ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className="button-primary flex items-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
@@ -88,7 +88,7 @@ export default function Portfolio() {
             Ödülleri Topla
           </button>
           
-          <Link href="/" className="secondary-button">
+          <Link href="/" className="px-4 py-2 rounded-lg bg-background-secondary text-foreground hover:bg-opacity-80 transition-all">
             Ana Sayfaya Dön
           </Link>
         </div>
@@ -96,7 +96,7 @@ export default function Portfolio() {
       
       {/* Portfolio Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="dashboard-stat-new backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6">
+        <div className="dashboard-stat-new glass-effect p-6 rounded-xl">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="text-sm font-medium text-blue-200 mb-1">Toplam Stake Edilen</div>
@@ -115,7 +115,7 @@ export default function Portfolio() {
                 )}
               </div>
             </div>
-            <div className="bg-gradient-to-tr from-blue-600 to-blue-400 p-3 rounded-xl shadow-lg">
+            <div className="gradient-bg p-3 rounded-xl shadow-lg">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 2v20"></path>
                 <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
@@ -124,10 +124,10 @@ export default function Portfolio() {
           </div>
         </div>
         
-        <div className="dashboard-stat-new backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6">
+        <div className="dashboard-stat-new glass-effect p-6 rounded-xl">
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <div className="text-sm font-medium text-purple-200 mb-1">Aktif Pozisyonlar</div>
+              <div className="text-sm font-medium text-blue-200 mb-1">Aktif Pozisyonlar</div>
               <div className="text-2xl font-bold text-white">
                 {isLoading ? (
                   <div className="flex items-center gap-1">
@@ -138,7 +138,7 @@ export default function Portfolio() {
                 ) : userStakes.length}
               </div>
             </div>
-            <div className="bg-gradient-to-tr from-purple-600 to-purple-400 p-3 rounded-xl shadow-lg">
+            <div className="gradient-bg p-3 rounded-xl shadow-lg">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="3" y1="9" x2="21" y2="9"></line>

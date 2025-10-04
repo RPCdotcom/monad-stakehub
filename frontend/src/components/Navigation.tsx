@@ -15,7 +15,7 @@ export function Navigation() {
   ];
 
   return (
-    <div className="flex overflow-x-auto py-1 px-2 rounded-full bg-white/10 backdrop-blur-md shadow-sm border border-white/20">
+    <nav className="glass-effect flex overflow-x-auto px-3 py-2 rounded-xl shadow-md border border-white/20 mx-auto">
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         return (
@@ -24,14 +24,14 @@ export function Navigation() {
             href={item.href}
             className={`${
               isActive
-                ? 'bg-white/15 text-white font-medium'
-                : 'text-blue-100 hover:text-white'
-            } px-4 py-2 rounded-full transition-colors text-sm whitespace-nowrap`}
+                ? 'bg-primary text-white font-medium shadow-md'
+                : 'text-foreground hover:bg-background-secondary'
+            } px-4 py-2 rounded-lg transition-all duration-200 text-sm whitespace-nowrap mx-1`}
           >
             {item.name}
           </Link>
         );
       })}
-    </div>
+    </nav>
   );
 }

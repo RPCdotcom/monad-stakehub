@@ -137,9 +137,9 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent"></div>
         
         <header className="relative z-10 container mx-auto px-4 py-8 max-w-7xl">
-          <nav className="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <nav className="flex flex-col sm:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-4">
-              <div className="bg-white/15 p-3 rounded-full backdrop-blur-md shadow-xl border border-white/10">
+              <div className="glass-effect p-3 rounded-full shadow-xl border border-white/20">
                 <Image src="/globe.svg" alt="Monad Logo" width={30} height={30} className="filter brightness-0 invert" />
               </div>
               <div>
@@ -157,12 +157,12 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
-            <div className="mb-4 sm:mb-0">
+
+            <div className="w-full sm:w-auto mb-4 sm:mb-0 flex justify-center">
               <Navigation />
             </div>
             
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+            <div className="glass-effect flex items-center gap-4 px-4 py-2 rounded-xl border border-white/20">
               <a href="#validators" className="text-white hover:text-blue-200 transition-colors text-sm">
                 Validatörler
               </a>
@@ -197,7 +197,7 @@ export default function Home() {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#validators" className="primary-button inline-flex items-center gap-2 group px-6 py-3 bg-white text-blue-900 rounded-full hover:shadow-lg hover:scale-105 transition-all font-medium">
+              <a href="#validators" className="primary-button inline-flex items-center gap-2 group hover:shadow-lg hover:scale-105 transition-all">
                 Validatörleri Keşfet
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-1 transition-transform">
                   <path d="M5 12h14"></path>
