@@ -27,6 +27,9 @@ export const monadTestnet: Chain = {
   },
 };
 
+// injected connector import edilir
+import { injected } from 'wagmi/connectors';
+
 // wagmi client konfigürasyonu
 export const config = createConfig({
   chains: [monadTestnet, mainnet],
@@ -34,6 +37,10 @@ export const config = createConfig({
     [monadTestnet.id]: http(),
     [mainnet.id]: http(),
   },
+  // Sadece injected connector kullan (MetaMask)
+  connectors: [
+    injected({ target: 'metaMask' }),
+  ],
 });
 
 export const chains = [monadTestnet, mainnet];

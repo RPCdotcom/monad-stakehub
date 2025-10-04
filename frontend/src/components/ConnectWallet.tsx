@@ -5,7 +5,7 @@ import { injected } from 'wagmi/connectors';
 export const ConnectWallet = () => {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
-    connector: injected(),
+    connector: injected({ target: 'metaMask' }), // Sadece MetaMask'ı hedefle
   });
   const { disconnect } = useDisconnect();
 
