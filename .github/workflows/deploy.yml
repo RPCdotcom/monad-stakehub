@@ -1,0 +1,83 @@
+name: Deploy to Vercel
+on:
+  push:
+    branches:
+      - main
+      - master
+      
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm ci
+          
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+        
+      - name: Deploy to Vercel
+        run: |
+          cd frontend
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --yes
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+  deploy-to-ipfs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm ci
+          
+      - name: Build for IPFS
+        run: |
+          cd frontend
+          NEXT_PUBLIC_IPFS_BUILD=true npm run build
+          
+      - name: Install IPFS CLI
+        run: npm install -g ipfs
+        
+      - name: Start IPFS Daemon
+        run: ipfs daemon --init --offline &
+        
+      - name: Deploy to IPFS
+        id: ipfs-deploy
+        run: |
+          sleep 3  # Wait for IPFS daemon to start
+          HASH=$(ipfs add -r frontend/out | tail -n 1 | cut -d ' ' -f 2)
+          echo "IPFS_HASH=$HASH" >> $GITHUB_ENV
+          echo "::set-output name=ipfs_hash::$HASH"
+          
+      - name: Output IPFS Links
+        run: |
+          echo "IPFS Hash: ${{ env.IPFS_HASH }}"
+          echo "IPFS Gateway: https://ipfs.io/ipfs/${{ env.IPFS_HASH }}"
+          
+      - name: Pin to Pinata
+        if: ${{ secrets.PINATA_API_KEY != '' }}
+        uses: anantaramdas/ipfs-pinata-deploy-action@v1.6.4
+        with:
+          pin-name: StakeHub-${{ github.sha }}
+          path: './frontend/out'
+          pinata-api-key: ${{ secrets.PINATA_API_KEY }}
+          pinata-secret-api-key: ${{ secrets.PINATA_SECRET_API_KEY }}
+          verbose: true

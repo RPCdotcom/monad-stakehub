@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_MONAD_RPC_URL": "https://rpc.ankr.com/monad_testnet",
+    "NEXT_PUBLIC_STAKEHUB_CONTRACT": "0x1234567890123456789012345678901234567890"
+  }
+}

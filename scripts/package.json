@@ -1,0 +1,13 @@
+{
+  "name": "stakehub-scripts",
+  "version": "1.0.0",
+  "description": "StakeHub indexing and utility scripts",
+  "main": "indexer.js",
+  "scripts": {
+    "indexer": "node indexer.js"
+  },
+  "dependencies": {
+    "ethers": "^6.8.1",
+    "pg": "^8.11.3"
+  }
+}
