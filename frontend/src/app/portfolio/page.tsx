@@ -12,8 +12,7 @@ import { useStakeHub } from '@/lib/useStakeHub';
 export default function Portfolio() {
   const router = useRouter();
   const { address, isConnected } = useAccount();
-  const { totalStaked, validators, getUserStakes, isLoading, claimRewards } = useStakeHub();
-  const [userStakes, setUserStakes] = useState([]);
+  const { totalStaked, validators, userStakes, fetchUserStakes, isLoading, claimRewards } = useStakeHub();
   const [totalRewards, setTotalRewards] = useState(0);
   const [selectedTab, setSelectedTab] = useState('overview');
   
@@ -30,13 +29,13 @@ export default function Portfolio() {
     
     try {
       // Fetch user stakes
-      const stakes = await getUserStakes(address);
-      setUserStakes(stakes);
+      await fetchUserStakes();
       
       // Calculate total rewards (simulation for demo)
-      const totalUserStake = stakes.reduce((sum, stake) => sum + parseFloat(stake.amount), 0);
+      const totalUserStake = userStakes.reduce((sum: number, stake: any) => sum + parseFloat(stake.amount), 0);
+      // Use apy if available, otherwise use commission or default to 5% 
       const avgApy = validators.length > 0 
-        ? validators.reduce((sum, val) => sum + val.apy, 0) / validators.length 
+        ? validators.reduce((sum: number, val: any) => sum + (val.apy || val.commission || 5), 0) / validators.length 
         : 5.2;
       
       // Simulate rewards based on stake amount and time
@@ -47,13 +46,14 @@ export default function Portfolio() {
     }
   };
   
-  const handleClaimRewards = async () => {
+    const handleClaimRewards = async (validatorAddress: string) => {
     try {
-      await claimRewards();
-      // Update UI after claiming
+      await claimRewards(validatorAddress);
+      alert("Rewards claimed successfully!");
       fetchUserData();
     } catch (error) {
       console.error("Error claiming rewards:", error);
+      alert("Error claiming rewards");
     }
   };
   
@@ -77,9 +77,9 @@ export default function Portfolio() {
         
         <div className="flex items-center gap-4">
           <button 
-            onClick={handleClaimRewards}
-            disabled={totalRewards <= 0}
-            className={`primary-button flex items-center gap-2 ${totalRewards <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            onClick={() => userStakes.length > 0 && handleClaimRewards(userStakes[0].validator.address)}
+            disabled={totalRewards <= 0 || userStakes.length === 0}
+            className={`primary-button flex items-center gap-2 ${(totalRewards <= 0 || userStakes.length === 0) ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
@@ -448,7 +448,7 @@ export default function Portfolio() {
                         <div>
                           <div className="font-semibold">{validator.name}</div>
                           <div className="text-xs text-secondary flex items-center gap-2">
-                            <span>APY: {validator.apy}%</span>
+                            <span>Fee: {validator.commission}%</span>
                             <span className="inline-block w-1 h-1 rounded-full bg-border"></span>
                             <span>Commission: {validator.commission}%</span>
                           </div>

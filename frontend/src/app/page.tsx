@@ -5,6 +5,7 @@ import Link from "next/link";
 import dynamic from 'next/dynamic';
 import { useAccount } from 'wagmi';
 import { useStakeHub } from '@/lib/useStakeHub';
+import { Navigation } from '@/components/Navigation';
 
 // ConnectWallet bileşenini yalnızca istemci tarafında çalıştırılacak şekilde import edelim
 const ConnectWallet = dynamic(
@@ -155,6 +156,10 @@ export default function Home() {
                   </p>
                 </div>
               </div>
+            </div>
+            
+            <div className="mb-4 sm:mb-0">
+              <Navigation />
             </div>
             
             <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
