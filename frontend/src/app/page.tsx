@@ -1,7 +1,13 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from "next/image";
-import { ConnectWallet } from '@/components/ConnectWallet';
+import dynamic from 'next/dynamic';
+
+// ConnectWallet bileşenini yalnızca istemci tarafında çalıştırılacak şekilde import edelim
+const ConnectWallet = dynamic(
+  () => import('@/components/ConnectWallet').then((mod) => mod.ConnectWallet),
+  { ssr: false }
+);
 
 // Bu mock veri frontend geliştirme için kullanılıyor
 // Gerçek uygulamada bu veriler akıllı kontrat ve indexerdan alınacak

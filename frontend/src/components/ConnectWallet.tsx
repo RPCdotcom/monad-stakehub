@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { injected } from 'wagmi/connectors';
