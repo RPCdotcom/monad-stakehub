@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
-import { useAccount } from 'wagmi';
+import { useAccount }                 <p className="text-sm text-blue-100 font-medium flex items-center gap-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                Monad Ağında Stake Yapın
+              </p> 'wagmi';
 import { useStakeHub } from '@/lib/useStakeHub';
 import { Navigation } from '@/components/Navigation';
 
@@ -186,11 +189,11 @@ export default function Home() {
             <div className="inline-block mb-6 px-6 py-2 bg-white/10 backdrop-blur-lg rounded-full border border-white/10 shadow-lg">
               <p className="text-sm text-blue-100 font-medium flex items-center gap-2">
                 <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                Monad Metaverse'te Stake Yapın
+                Monad Ağında Stake Yapın
               </p>
             </div>
             <h2 className="text-5xl md:text-7xl font-extrabold mb-6 text-white leading-tight tracking-tight">
-              Geleceğin <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Metaverse</span> <br/>Ağına Güç Katın
+              Geleceğin Ağı <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Monad</span>'a <br/>Güç Katın
             </h2>
             <p className="text-xl max-w-2xl mx-auto text-blue-100/90 mb-12">
               Validatörler aracılığıyla Monad ağının güvenliğine katkı sağlayın ve yıllık %5+ getiri elde edin
