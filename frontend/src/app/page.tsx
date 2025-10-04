@@ -3,10 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
-import { useAccount }                 <p className="text-sm text-blue-100 font-medium flex items-center gap-2">
-                <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                Monad Ağında Stake Yapın
-              </p> 'wagmi';
+import { useAccount } from 'wagmi';
 import { useStakeHub } from '@/lib/useStakeHub';
 import { Navigation } from '@/components/Navigation';
 
