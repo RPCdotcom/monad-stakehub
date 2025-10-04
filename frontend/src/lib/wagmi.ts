@@ -1,13 +1,11 @@
-import { createConfig } from 'wagmi';
-import { Chain } from '@wagmi/core';
-import { publicProvider } from 'wagmi/providers/public';
+import { createConfig, http } from 'wagmi';
+import { type Chain } from 'viem';
 import { mainnet } from 'wagmi/chains';
 
 // Monad Testnet konfigürasyonu
 export const monadTestnet: Chain = {
-  id: 2525,
+  id: 10143,
   name: 'Monad Testnet',
-  network: 'monad-testnet',
   rpcUrls: {
     default: {
       http: [process.env.NEXT_PUBLIC_MONAD_RPC_URL || 'https://rpc.ankr.com/monad_testnet'],
@@ -29,17 +27,13 @@ export const monadTestnet: Chain = {
   },
 };
 
-// Zincir yapılandırması
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [monadTestnet, mainnet],
-  [publicProvider()]
-);
-
 // wagmi client konfigürasyonu
 export const config = createConfig({
-  autoConnect: true,
-  publicClient,
-  webSocketPublicClient,
+  chains: [monadTestnet, mainnet],
+  transports: {
+    [monadTestnet.id]: http(),
+    [mainnet.id]: http(),
+  },
 });
 
-export { chains };
+export const chains = [monadTestnet, mainnet];
