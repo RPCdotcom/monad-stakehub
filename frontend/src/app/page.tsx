@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import Image from "next/image";
 import dynamic from 'next/dynamic';
+import { useAccount } from 'wagmi';
+import { useStakeHub } from '@/lib/useStakeHub';
 
 // ConnectWallet bileşenini yalnızca istemci tarafında çalıştırılacak şekilde import edelim
 const ConnectWallet = dynamic(
@@ -9,71 +11,41 @@ const ConnectWallet = dynamic(
   { ssr: false }
 );
 
-// Bu mock veri frontend geliştirme için kullanılıyor
-// Gerçek uygulamada bu veriler akıllı kontrat ve indexerdan alınacak
-const MOCK_VALIDATORS = [
-  {
-    id: '1',
-    address: '0x1234567890123456789012345678901234567890',
-    name: 'Monad Validator Alpha',
-    description: 'Professional validator with %99.9 uptime guarantee',
-    uptime: 99.9,
-    commission: 10, // %10
-    totalStaked: '1250000', // wei
-    userCount: 45,
-    socialLinks: {
-      twitter: '@monadvalidator',
-      website: 'https://monad-validator.com',
-      telegram: '@monadvalidator',
-    },
-  },
-  {
-    id: '2',
-    address: '0x2345678901234567890123456789012345678901',
-    name: 'ValidatorDAO',
-    description: 'Community driven validator focused on decentralization',
-    uptime: 99.7,
-    commission: 5, // %5
-    totalStaked: '850000', // wei
-    userCount: 92,
-    socialLinks: {
-      twitter: '@validatorDAO',
-      discord: 'https://discord.gg/validatorDAO',
-    },
-  },
-  {
-    id: '3',
-    address: '0x3456789012345678901234567890123456789012',
-    name: 'Antalya Validator',
-    description: 'Monad testnet için Türkiye\'nin ilk validatoru',
-    uptime: 99.8,
-    commission: 7.5, // %7.5
-    totalStaked: '750000', // wei
-    userCount: 38,
-    socialLinks: {
-      twitter: '@antalyavalidator',
-      telegram: '@antalyavalidator',
-    },
-  },
-];
-
 export default function Home() {
-  const [validators, setValidators] = useState(MOCK_VALIDATORS);
+  const { address, isConnected } = useAccount();
+  const { validators, totalStaked, isLoading, error, stake, claimRewards, getUserStake, calculateRewards } = useStakeHub();
+  
   const [selectedValidator, setSelectedValidator] = useState<string | null>(null);
   const [stakeAmount, setStakeAmount] = useState<string>('');
-  const [isConnected, setIsConnected] = useState(false);
+  const [userStakeInfo, setUserStakeInfo] = useState<{ amount: string; lastStakeTime: number } | null>(null);
+  const [userRewards, setUserRewards] = useState<string>('0');
+  const [isStaking, setIsStaking] = useState(false);
+  const [isClaiming, setIsClaiming] = useState(false);
 
-  // Bağlantı durumunu mock olarak ayarla (gerçek uygulamada wagmi hook'u kullanılır)
+  // Validator seçildiğinde kullanıcının stake ve ödül bilgilerini yükle
   useEffect(() => {
-    // Mock wallet connection check
-    const checkConnection = () => {
-      const connected = localStorage.getItem('walletConnected') === 'true';
-      setIsConnected(connected);
+    const fetchUserInfo = async () => {
+      if (!selectedValidator || !isConnected) {
+        setUserStakeInfo(null);
+        setUserRewards('0');
+        return;
+      }
+
+      try {
+        // Kullanıcının stake bilgisini al
+        const stakeInfo = await getUserStake(selectedValidator);
+        setUserStakeInfo(stakeInfo);
+        
+        // Kullanıcının ödül bilgisini al
+        const rewards = await calculateRewards(selectedValidator);
+        setUserRewards(rewards);
+      } catch (err) {
+        console.error('Kullanıcı bilgileri yüklenirken hata:', err);
+      }
     };
 
-    checkConnection();
-    // Gerçek uygulamada bağlantı event listener'ları kullanılır
-  }, []);
+    fetchUserInfo();
+  }, [selectedValidator, isConnected, address]);
 
   // Validator seçme
   const handleValidatorSelect = (validatorId: string) => {
@@ -89,12 +61,58 @@ export default function Home() {
   const handleStake = async () => {
     if (!selectedValidator || !stakeAmount || !isConnected) return;
 
-    // Mock stake işlemi - gerçekte akıllı kontrat etkileşimi olur
-    console.log(`Staking ${stakeAmount} MONAD to validator ${selectedValidator}`);
+    try {
+      setIsStaking(true);
+      // Kontrat üzerinden stake işlemi
+      const selectedValidatorObj = validators.find(v => v.id === selectedValidator);
+      if (!selectedValidatorObj) {
+        throw new Error("Validator bulunamadı");
+      }
+      
+      const tx = await stake(selectedValidatorObj.address, stakeAmount);
+      console.log('Stake işlemi başarılı:', tx);
+      
+      // Başarılı bildirim
+      alert(`${stakeAmount} MONAD başarıyla stake edildi!`);
+      setStakeAmount('');
+      
+      // Kullanıcı bilgilerini güncelle
+      const stakeInfo = await getUserStake(selectedValidatorObj.address);
+      setUserStakeInfo(stakeInfo);
+    } catch (err) {
+      console.error('Stake işlemi başarısız:', err);
+      alert('Stake işlemi başarısız oldu. Lütfen tekrar deneyin.');
+    } finally {
+      setIsStaking(false);
+    }
+  };
 
-    // Stake başarılı bildirimi
-    alert(`Successfully staked ${stakeAmount} MONAD!`);
-    setStakeAmount('');
+  // Ödülleri talep etme
+  const handleClaimRewards = async () => {
+    if (!selectedValidator || !isConnected) return;
+
+    try {
+      setIsClaiming(true);
+      const selectedValidatorObj = validators.find(v => v.id === selectedValidator);
+      if (!selectedValidatorObj) {
+        throw new Error("Validator bulunamadı");
+      }
+      
+      const tx = await claimRewards(selectedValidatorObj.address);
+      console.log('Ödül talebi başarılı:', tx);
+      
+      // Başarılı bildirim
+      alert(`Ödülleriniz başarıyla talep edildi!`);
+      
+      // Kullanıcı bilgilerini güncelle
+      const rewards = await calculateRewards(selectedValidatorObj.address);
+      setUserRewards(rewards);
+    } catch (err) {
+      console.error('Ödül talebi başarısız:', err);
+      alert('Ödül talep işlemi başarısız oldu. Lütfen tekrar deneyin.');
+    } finally {
+      setIsClaiming(false);
+    }
   };
 
   return (
@@ -153,11 +171,24 @@ export default function Home() {
               </div>
               <div>
                 <div className="stat-label">Toplam Stake Edilen</div>
-                <div className="stat-value">{validators.reduce((total, v) => total + parseInt(v.totalStaked), 0) / 1000000}M+</div>
+                <div className="stat-value">
+                  {isLoading ? (
+                    <div className="flex items-center gap-1">
+                      <span className="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
+                      <span className="w-3 h-3 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+                    </div>
+                  ) : (
+                    `${Number(totalStaked).toLocaleString('en-US', {
+                      maximumFractionDigits: 2,
+                      minimumFractionDigits: 0
+                    })} MONAD`
+                  )}
+                </div>
               </div>
             </div>
             <div className="progress-bar mt-2">
-              <div className="progress-bar-fill" style={{width: '68%'}}></div>
+              <div className="progress-bar-fill" style={{width: isLoading ? '0%' : '68%'}}></div>
             </div>
           </div>
           
@@ -173,11 +204,19 @@ export default function Home() {
               </div>
               <div>
                 <div className="stat-label">Aktif Validatorler</div>
-                <div className="stat-value">{validators.length}</div>
+                <div className="stat-value">
+                  {isLoading ? (
+                    <div className="flex items-center gap-1">
+                      <span className="w-3 h-3 rounded-full bg-accent animate-pulse"></span>
+                      <span className="w-3 h-3 rounded-full bg-accent animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-accent animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+                    </div>
+                  ) : validators.length}
+                </div>
               </div>
             </div>
             <div className="progress-bar mt-2">
-              <div className="progress-bar-fill" style={{width: '45%'}}></div>
+              <div className="progress-bar-fill" style={{width: isLoading ? '0%' : '45%'}}></div>
             </div>
           </div>
           
@@ -192,11 +231,23 @@ export default function Home() {
               </div>
               <div>
                 <div className="stat-label">Ortalama APY</div>
-                <div className="stat-value">5.2%</div>
+                <div className="stat-value">
+                  {isLoading ? (
+                    <div className="flex items-center gap-1">
+                      <span className="w-3 h-3 rounded-full bg-success animate-pulse"></span>
+                      <span className="w-3 h-3 rounded-full bg-success animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-success animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+                    </div>
+                  ) : (
+                    `${validators.length > 0 
+                      ? (validators.reduce((total, v) => total + v.commission, 0) / validators.length).toFixed(1) 
+                      : '5.2'}%`
+                  )}
+                </div>
               </div>
             </div>
             <div className="progress-bar mt-2">
-              <div className="progress-bar-fill" style={{width: '52%'}}></div>
+              <div className="progress-bar-fill" style={{width: isLoading ? '0%' : '52%'}}></div>
             </div>
           </div>
         </div>
