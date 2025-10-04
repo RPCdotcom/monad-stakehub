@@ -8,8 +8,8 @@ const path = require('path');
 // Monad testnet RPC
 const MONAD_RPC_URL = 'https://rpc.ankr.com/monad_testnet';
 
-// StakeHub kontrat adresi (deploy edildikten sonra buraya eklenecek)
-const STAKE_HUB_ADDRESS = '0x1234567890123456789012345678901234567890'; // Örnek adres
+// StakeHub kontrat adresi
+const STAKE_HUB_ADDRESS = '0x4cd4159d89819656fbca45ee1309fe96ced351ca';
 
 // StakeHub kontrat ABI'sini yükle
 const contractAbiPath = path.join(__dirname, '../contracts/artifacts/contracts/StakeHub.sol/StakeHub.json');

@@ -1,7 +1,6 @@
 {
   "name": "monad-blitz-ankara",
   "version": "1.0.0",
-  "type": "module",
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.0.3",
     "@nomicfoundation/hardhat-toolbox-viem": "^5.0.0",
@@ -31,6 +30,7 @@
     "color-name": "^1.1.4",
     "debug": "^4.4.3",
     "diff-sequences": "^29.6.3",
+    "dotenv": "^17.2.3",
     "elliptic": "^6.6.1",
     "enquirer": "^2.4.1",
     "env-paths": "^2.2.1",
@@ -94,5 +94,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RPCdotcom/monad-stakehub.git"
+  },
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/RPCdotcom/monad-stakehub/issues"
+  },
+  "homepage": "https://github.com/RPCdotcom/monad-stakehub#readme"
 }

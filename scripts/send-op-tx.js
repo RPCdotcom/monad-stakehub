@@ -12,8 +12,8 @@ const MONAD_RPC_URL = 'https://rpc.ankr.com/monad_testnet';
 // SADECE TEST İÇİN, GERÇEK PROJELERİNİZDE ASLA HARDCODED PRIVATE KEY KULLANMAYIN
 const PRIVATE_KEY = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'; // Test private key
 
-// StakeHub kontrat adresi (deploy edildikten sonra buraya eklenecek)
-const STAKE_HUB_ADDRESS = '0x1234567890123456789012345678901234567890'; // Örnek adres
+// StakeHub kontrat adresi
+const STAKE_HUB_ADDRESS = '0x4cd4159d89819656fbca45ee1309fe96ced351ca';
 
 // StakeHub kontrat ABI'sini yükle
 const contractAbiPath = path.join(__dirname, '../contracts/artifacts/contracts/StakeHub.sol/StakeHub.json');

@@ -6,6 +6,24 @@
 # Environment değişkenlerini ayarla
 export NEXT_PUBLIC_IPFS_BUILD=true
 
+# Kontrat adresi parametresi kontrolü
+if [ ! -z "$1" ]; then
+  echo "StakeHub kontrat adresi: $1"
+  export NEXT_PUBLIC_STAKEHUB_CONTRACT=$1
+else
+  echo "UYARI: Kontrat adresi belirtilmedi. Parametre olarak kontrat adresini vermelisiniz."
+  echo "Örnek: ./deploy-to-ipfs.sh 0xContractAddress"
+  
+  # .env dosyasından kontrat adresini okumaya çalış
+  if [ -f "/Users/rfc/Desktop/monad-blitz-ankara/frontend/.env" ]; then
+    CONTRACT_ADDRESS=$(grep NEXT_PUBLIC_STAKEHUB_CONTRACT /Users/rfc/Desktop/monad-blitz-ankara/frontend/.env | cut -d '=' -f2)
+    if [ ! -z "$CONTRACT_ADDRESS" ]; then
+      echo "Kontrat adresi .env dosyasından alındı: $CONTRACT_ADDRESS"
+      export NEXT_PUBLIC_STAKEHUB_CONTRACT=$CONTRACT_ADDRESS
+    fi
+  fi
+fi
+
 # Next.js'i build et
 cd /Users/rfc/Desktop/monad-blitz-ankara/frontend
 npm run build
