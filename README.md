@@ -3,7 +3,7 @@
 Bu proje, Monad ağı üzerinde validator–kullanıcı etkileşimini ve staking işlemlerini kolaylaştıran bir sosyal staking dApp örneğidir.
 
 ## 🌐 Live Demo
-* Vercel: https://stakehub-monad.vercel.app
+* Vercel: https://monad-stakehub.vercel.app
 * IPFS: https://ipfs.io/ipfs/Qm... (Deploy edildiğinde güncellenecek)
 
 ## Klasörler
