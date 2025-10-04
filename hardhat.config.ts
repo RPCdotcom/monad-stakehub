@@ -42,9 +42,10 @@ const config: HardhatUserConfig = {
     monad_testnet: {
       type: "http",
       chainType: "l1",
-      url: "https://rpc.ankr.com/monad_testnet",
+      url: process.env.NEXT_PUBLIC_MONAD_RPC_URL_HTTP || "https://monad-testnet.drpc.org",
       accounts: [process.env.PRIVATE_KEY || "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"],
-      chainId: 10143,
+      chainId: parseInt(process.env.NEXT_PUBLIC_MONAD_CHAIN_ID || "10143"),
+      timeout: parseInt(process.env.API_TIMEOUT || "30000"),
     },
   },
 };

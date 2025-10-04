@@ -9,14 +9,17 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// .env dosyasından değişkenleri yükle
+require('dotenv').config({ path: '../.env' });
+
 // PostgreSQL bağlantısı
 const client = new Client({
-  // Bu örnek config'dir, gerçek bir deployment için çevre değişkenleri kullanılmalı
-  host: 'localhost',
-  port: 5432,
-  database: 'stakehub',
-  user: 'postgres',
-  password: 'postgres'
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  database: process.env.DB_NAME || 'stakehub',
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
 });
 
 // Veritabanı şeması oluştur
