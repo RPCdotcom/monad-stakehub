@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from 'next/dynamic';
 import { useAccount } from 'wagmi';
 import { useStakeHub } from '@/lib/useStakeHub';
@@ -117,43 +118,111 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-background overflow-x-hidden">
-      {/* Header - Premium Gradient Background */}
+      {/* Header - Metaverse Style Premium Gradient Background */}
       <div className="relative">
+        {/* 3D Background Elements */}
         <div className="absolute inset-0 bg-[url('/globe.svg')] opacity-5 bg-repeat-space"></div>
-        <div className="absolute inset-0 gradient-bg opacity-90"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-indigo-800 to-violet-900 opacity-95"></div>
+        <div className="absolute inset-0 bg-[url('/globe.svg')] opacity-10 bg-repeat-space mix-blend-overlay"></div>
         
-        <header className="relative z-10 container mx-auto px-4 py-6 max-w-7xl">
-          <nav className="flex justify-between items-center">
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:20px_20px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+        
+        {/* Floating Elements */}
+        <div className="absolute top-1/4 left-1/5 w-40 h-40 bg-blue-400/20 rounded-full mix-blend-overlay filter blur-3xl animate-float-slow"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-60 h-60 bg-purple-400/20 rounded-full mix-blend-overlay filter blur-3xl animate-float"></div>
+        
+        {/* Gradient Fade to Background */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent"></div>
+        
+        <header className="relative z-10 container mx-auto px-4 py-8 max-w-7xl">
+          <nav className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-4">
-              <div className="bg-white/10 p-3 rounded-full backdrop-blur-sm">
-                <Image src="/globe.svg" alt="Monad Logo" width={28} height={28} className="filter brightness-0 invert" />
+              <div className="bg-white/15 p-3 rounded-full backdrop-blur-md shadow-xl border border-white/10">
+                <Image src="/globe.svg" alt="Monad Logo" width={30} height={30} className="filter brightness-0 invert" />
               </div>
               <div>
                 <h1 className="text-3xl font-bold tracking-tight text-white">StakeHub</h1>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                  <p className="text-xs font-medium text-blue-100">Monad Testnet • Bloklar Senkronize</p>
+                  <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <p className="text-xs font-medium text-blue-100">
+                    <span className="hidden sm:inline">Monad Testnet</span> • <span className="inline-flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Canlı
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>
-            <ConnectWallet />
+            
+            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+              <a href="#validators" className="text-white hover:text-blue-200 transition-colors text-sm">
+                Validatörler
+              </a>
+              <a href="#stake" className="text-white hover:text-blue-200 transition-colors text-sm">
+                Stake Et
+              </a>
+              <Link href="/portfolio" className="text-white hover:text-blue-200 transition-colors text-sm flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                Portfolyo
+              </Link>
+              <div className="h-4 border-r border-white/30 mx-1"></div>
+              <ConnectWallet />
+            </div>
           </nav>
           
           <div className="mt-24 mb-32 text-center">
-            <h2 className="text-5xl md:text-6xl font-extrabold mb-6 text-white leading-tight">
-              MONAD'a <span className="bg-white bg-opacity-10 px-3 pb-1 rounded-lg">Stake</span> Yapın
+            <div className="inline-block mb-6 px-6 py-2 bg-white/10 backdrop-blur-lg rounded-full border border-white/10 shadow-lg">
+              <p className="text-sm text-blue-100 font-medium flex items-center gap-2">
+                <span className="inline-block w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                Monad Metaverse'te Stake Yapın
+              </p>
+            </div>
+            <h2 className="text-5xl md:text-7xl font-extrabold mb-6 text-white leading-tight tracking-tight">
+              Geleceğin <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">Metaverse</span> <br/>Ağına Güç Katın
             </h2>
-            <p className="text-xl max-w-2xl mx-auto text-blue-100 mb-10">
-              Profesyonel validatorlar ile ağın güvenliğine katkıda bulunun ve %5+ APY kazanın
+            <p className="text-xl max-w-2xl mx-auto text-blue-100/90 mb-12">
+              Validatörler aracılığıyla Monad ağının güvenliğine katkı sağlayın ve yıllık %5+ getiri elde edin
             </p>
             
-            <a href="#validators" className="primary-button inline-flex items-center gap-2 group">
-              Validatorları Keşfet
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-y-1 transition-transform">
-                <path d="m6 9 6 6 6-6"></path>
-              </svg>
-            </a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="#validators" className="primary-button inline-flex items-center gap-2 group px-6 py-3 bg-white text-blue-900 rounded-full hover:shadow-lg hover:scale-105 transition-all font-medium">
+                Validatörleri Keşfet
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-1 transition-transform">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </a>
+              <a href="#" className="inline-flex items-center gap-2 px-6 py-3 border border-white/30 text-white rounded-full hover:bg-white/10 transition-all backdrop-blur-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polygon points="21 15 16 10 5 21"></polygon>
+                </svg>
+                Demo İzle
+              </a>
+            </div>
+            
+            <div className="mt-16 flex justify-center items-center gap-8 opacity-75">
+              <div className="flex flex-col items-center">
+                <p className="text-white/80 text-xs uppercase tracking-wider font-semibold">Desteklenen</p>
+                <Image src="/window.svg" alt="Monad" width={100} height={25} className="filter brightness-0 invert mt-2" />
+              </div>
+              <div className="flex flex-col items-center">
+                <p className="text-white/80 text-xs uppercase tracking-wider font-semibold">Güvenli</p>
+                <div className="mt-2 text-white font-mono font-bold">MONAD</div>
+              </div>
+              <div className="flex flex-col items-center">
+                <p className="text-white/80 text-xs uppercase tracking-wider font-semibold">Web3</p>
+                <div className="mt-2 text-white text-2xl font-bold">WEB3</div>
+              </div>
+            </div>
           </div>
         </header>
       </div>
@@ -161,22 +230,16 @@ export default function Home() {
       {/* Stats Section */}
       <section className="container mx-auto px-4 -mt-24 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="dashboard-stat animate-fade-in" style={{animationDelay: '0.1s'}}>
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
-                  <path d="M12 2v20"></path>
-                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
-                </svg>
-              </div>
-              <div>
-                <div className="stat-label">Toplam Stake Edilen</div>
-                <div className="stat-value">
+          <div className="dashboard-stat-new animate-fade-in backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 transform transition-all hover:scale-[1.02] hover:shadow-xl" style={{animationDelay: '0.1s'}}>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="text-sm font-medium text-blue-200 mb-1">Toplam Stake Edilen</div>
+                <div className="text-2xl font-bold text-white">
                   {isLoading ? (
                     <div className="flex items-center gap-1">
-                      <span className="w-3 h-3 rounded-full bg-primary animate-pulse"></span>
-                      <span className="w-3 h-3 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0.2s' }}></span>
-                      <span className="w-3 h-3 rounded-full bg-primary animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-blue-400 animate-pulse"></span>
+                      <span className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" style={{ animationDelay: '0.4s' }}></span>
                     </div>
                   ) : (
                     `${Number(totalStaked).toLocaleString('en-US', {
@@ -185,58 +248,71 @@ export default function Home() {
                     })} MONAD`
                   )}
                 </div>
+                <div className="text-xs text-blue-300 mt-1">Toplam token değeri: $25.3M</div>
+              </div>
+              <div className="bg-gradient-to-tr from-blue-600 to-blue-400 p-3 rounded-xl shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2v20"></path>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
               </div>
             </div>
-            <div className="progress-bar mt-2">
-              <div className="progress-bar-fill" style={{width: isLoading ? '0%' : '68%'}}></div>
+            <div className="mt-4">
+              <div className="flex justify-between text-xs text-blue-200 mb-1">
+                <span>Hedef</span>
+                <span>100M MONAD</span>
+              </div>
+              <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full" style={{width: isLoading ? '0%' : '68%'}}></div>
+              </div>
             </div>
           </div>
           
-          <div className="dashboard-stat animate-fade-in" style={{animationDelay: '0.2s'}}>
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
+          <div className="dashboard-stat-new animate-fade-in backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 transform transition-all hover:scale-[1.02] hover:shadow-xl" style={{animationDelay: '0.2s'}}>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="text-sm font-medium text-purple-200 mb-1">Aktif Validatörler</div>
+                <div className="text-2xl font-bold text-white">
+                  {isLoading ? (
+                    <div className="flex items-center gap-1">
+                      <span className="w-3 h-3 rounded-full bg-purple-400 animate-pulse"></span>
+                      <span className="w-3 h-3 rounded-full bg-purple-400 animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-purple-400 animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+                    </div>
+                  ) : validators.length}
+                </div>
+                <div className="text-xs text-purple-300 mt-1">Son 30 günde %15 artış</div>
+              </div>
+              <div className="bg-gradient-to-tr from-purple-600 to-purple-400 p-3 rounded-xl shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
                   <circle cx="9" cy="7" r="4"></circle>
                   <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
               </div>
-              <div>
-                <div className="stat-label">Aktif Validatorler</div>
-                <div className="stat-value">
-                  {isLoading ? (
-                    <div className="flex items-center gap-1">
-                      <span className="w-3 h-3 rounded-full bg-accent animate-pulse"></span>
-                      <span className="w-3 h-3 rounded-full bg-accent animate-pulse" style={{ animationDelay: '0.2s' }}></span>
-                      <span className="w-3 h-3 rounded-full bg-accent animate-pulse" style={{ animationDelay: '0.4s' }}></span>
-                    </div>
-                  ) : validators.length}
-                </div>
-              </div>
             </div>
-            <div className="progress-bar mt-2">
-              <div className="progress-bar-fill" style={{width: isLoading ? '0%' : '45%'}}></div>
+            <div className="mt-4">
+              <div className="flex justify-between text-xs text-purple-200 mb-1">
+                <span>Ağ Güvenliği</span>
+                <span>{isLoading ? '...' : validators.length > 5 ? 'Mükemmel' : 'İyi'}</span>
+              </div>
+              <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full" style={{width: isLoading ? '0%' : '45%'}}></div>
+              </div>
             </div>
           </div>
           
-          <div className="dashboard-stat animate-fade-in" style={{animationDelay: '0.3s'}}>
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-full bg-green-100 dark:bg-green-900/30">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-success">
-                  <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5l6.74-6.76z"></path>
-                  <line x1="16" y1="8" x2="2" y2="22"></line>
-                  <line x1="17.5" y1="15" x2="9" y2="15"></line>
-                </svg>
-              </div>
-              <div>
-                <div className="stat-label">Ortalama APY</div>
-                <div className="stat-value">
+          <div className="dashboard-stat-new animate-fade-in backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-6 transform transition-all hover:scale-[1.02] hover:shadow-xl" style={{animationDelay: '0.3s'}}>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="text-sm font-medium text-emerald-200 mb-1">Ortalama APY</div>
+                <div className="text-2xl font-bold text-white">
                   {isLoading ? (
                     <div className="flex items-center gap-1">
-                      <span className="w-3 h-3 rounded-full bg-success animate-pulse"></span>
-                      <span className="w-3 h-3 rounded-full bg-success animate-pulse" style={{ animationDelay: '0.2s' }}></span>
-                      <span className="w-3 h-3 rounded-full bg-success animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+                      <span className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" style={{ animationDelay: '0.4s' }}></span>
                     </div>
                   ) : (
                     `${validators.length > 0 
@@ -244,10 +320,26 @@ export default function Home() {
                       : '5.2'}%`
                   )}
                 </div>
+                <div className="text-xs text-emerald-300 mt-1">Yıllık getiri potansiyeli</div>
+              </div>
+              <div className="bg-gradient-to-tr from-emerald-600 to-emerald-400 p-3 rounded-xl shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 20h.01"></path>
+                  <path d="M7 20v-4"></path>
+                  <path d="M12 20v-8"></path>
+                  <path d="M17 20v-6"></path>
+                  <path d="M22 20V8"></path>
+                </svg>
               </div>
             </div>
-            <div className="progress-bar mt-2">
-              <div className="progress-bar-fill" style={{width: isLoading ? '0%' : '52%'}}></div>
+            <div className="mt-4">
+              <div className="flex justify-between text-xs text-emerald-200 mb-1">
+                <span>Risk seviyesi</span>
+                <span>Düşük</span>
+              </div>
+              <div className="h-2 bg-white/20 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full" style={{width: isLoading ? '0%' : '82%'}}></div>
+              </div>
             </div>
           </div>
         </div>
@@ -326,31 +418,74 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Validators Section */}
-      <section id="validators" className="bg-background-secondary dark:bg-background-secondary/50 py-16">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="flex justify-between items-end mb-12">
+      {/* Validators Section - Modern 3D Interactive Cards */}
+      <section id="validators" className="bg-background-secondary dark:bg-background-secondary/50 py-16 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:24px_24px] opacity-50"></div>
+        <div className="absolute top-20 -left-24 w-64 h-64 bg-primary/20 rounded-full filter blur-3xl"></div>
+        <div className="absolute bottom-20 -right-24 w-64 h-64 bg-accent/20 rounded-full filter blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <div className="flex flex-col md:flex-row justify-between md:items-end mb-12 gap-6">
             <div>
-              <h2 className="text-3xl font-bold mb-2">Validator Ağı</h2>
-              <p className="text-secondary">En güvenilir validatorler arasından seçim yapın</p>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full text-primary text-xs font-medium mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+                </svg>
+                Yeni Özellikler
+              </div>
+              
+              <h2 className="text-3xl md:text-4xl font-bold mb-2 relative">
+                <span className="bg-gradient-to-r from-primary via-accent to-primary text-transparent bg-clip-text">Validator Ekosistemi</span>
+              </h2>
+              <p className="text-secondary text-lg max-w-xl">En güvenilir validatorler arasından seçim yapın ve Monad ağına katkıda bulunun</p>
             </div>
             
-            <div className="flex items-center gap-2">
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-card-bg hover:bg-opacity-80 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            <div className="flex flex-wrap gap-3">
+              <div className="relative">
+                <input 
+                  type="text" 
+                  placeholder="Validator ara..." 
+                  className="bg-background/60 border border-border rounded-lg pl-10 pr-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-primary/50 backdrop-blur-sm"
+                />
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                Filtrele
-              </button>
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-card-bg hover:bg-opacity-80 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="21" y1="10" x2="3" y2="10"></line>
-                  <line x1="21" y1="6" x2="3" y2="6"></line>
-                  <line x1="21" y1="14" x2="3" y2="14"></line>
-                  <line x1="21" y1="18" x2="3" y2="18"></line>
-                </svg>
-                Sırala
-              </button>
+              </div>
+              
+              <div className="flex items-center gap-2 bg-background/60 backdrop-blur-sm rounded-lg p-1 border border-border">
+                <button className="px-3 py-1.5 rounded-md bg-primary text-white text-sm font-medium">
+                  Tümü
+                </button>
+                <button className="px-3 py-1.5 rounded-md text-secondary hover:text-foreground text-sm font-medium transition-colors">
+                  Aktif
+                </button>
+                <button className="px-3 py-1.5 rounded-md text-secondary hover:text-foreground text-sm font-medium transition-colors">
+                  Yüksek APY
+                </button>
+                <button className="px-3 py-1.5 rounded-md text-secondary hover:text-foreground text-sm font-medium transition-colors">
+                  Yeni
+                </button>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-background/60 backdrop-blur-sm hover:bg-opacity-80 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                  </svg>
+                  Filtrele
+                </button>
+                <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border bg-background/60 backdrop-blur-sm hover:bg-opacity-80 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="21" y1="10" x2="3" y2="10"></line>
+                    <line x1="21" y1="6" x2="3" y2="6"></line>
+                    <line x1="21" y1="14" x2="3" y2="14"></line>
+                    <line x1="21" y1="18" x2="3" y2="18"></line>
+                  </svg>
+                  Sırala
+                </button>
+              </div>
             </div>
           </div>
           
@@ -358,18 +493,34 @@ export default function Home() {
             {validators.map((validator) => (
               <div 
                 key={validator.id}
-                className={`premium-card cursor-pointer ${
+                className={`validator-card-3d relative bg-gradient-to-br from-background to-background-secondary/80 backdrop-blur-sm border border-white/10 rounded-2xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer overflow-hidden ${
                   selectedValidator === validator.id 
-                    ? 'ring-2 ring-primary ring-opacity-50' 
+                    ? 'ring-2 ring-primary ring-opacity-70' 
                     : ''
                 }`}
                 onClick={() => handleValidatorSelect(validator.id)}
               >
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
+                {/* Background Pattern */}
+                <div className="absolute inset-0 bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:12px_12px] opacity-40"></div>
+                
+                {/* Glow Effect */}
+                <div className={`absolute -inset-px bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 opacity-0 transition-opacity duration-300 blur rounded-2xl ${
+                  selectedValidator === validator.id ? 'opacity-100' : 'group-hover:opacity-100'
+                }`}></div>
+                
+                <div className="p-6 relative">
+                  <div className="flex items-start justify-between mb-6">
                     <div className="flex gap-3 items-center">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-xl">
-                        {validator.name.charAt(0)}
+                      <div className="relative">
+                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-white font-bold text-xl">
+                          {validator.name.charAt(0)}
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 bg-success text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shadow-lg">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                          </svg>
+                        </div>
                       </div>
                       <div>
                         <h3 className="text-xl font-bold">{validator.name}</h3>
@@ -382,11 +533,45 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
+                    <button className="text-secondary hover:text-primary transition-colors">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                      </svg>
+                    </button>
                   </div>
                   
-                  <p className="text-secondary mb-6">{validator.description}</p>
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs text-secondary">Performans Puanı</span>
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <svg 
+                            key={i} 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="16" 
+                            height="16" 
+                            viewBox="0 0 24 24" 
+                            fill={i < Math.floor(Number(validator.uptime) / 20) ? "currentColor" : "none"} 
+                            stroke="currentColor" 
+                            strokeWidth="2" 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            className={i < Math.floor(Number(validator.uptime) / 20) ? "text-primary" : "text-white/20"}
+                          >
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                          </svg>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-xs text-secondary">Toplam Stake</span>
+                      <p className="font-semibold">{validator.totalStaked}</p>
+                    </div>
+                  </div>
                   
-                  <div className="bg-background-secondary dark:bg-background/60 rounded-lg p-4 mb-6">
+                  <p className="text-secondary text-sm mb-6">{validator.description.length > 80 ? validator.description.substring(0, 80) + '...' : validator.description}</p>
+                  
+                  <div className="bg-background-secondary/60 backdrop-blur-sm rounded-xl p-4 mb-6">
                     <div className="grid grid-cols-3 gap-4">
                       <div className="text-center">
                         <div className="text-secondary text-xs mb-1">Komisyon</div>
