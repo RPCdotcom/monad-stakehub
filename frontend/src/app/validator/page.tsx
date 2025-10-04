@@ -21,10 +21,14 @@ export default function ValidatorPage() {
   const { validators, totalStaked, isLoading, error } = useStakeHub();
   const [selectedFilter, setSelectedFilter] = useState('all');
 
-  // Filtreli validatorler
+  // Filtreli validatorler - uptime değerine göre active/waiting statüsünü belirle
   const filteredValidators = selectedFilter === 'all' 
     ? validators 
-    : validators.filter(validator => validator.status === selectedFilter);
+    : validators.filter(validator => {
+      // 99% ve üzeri uptime'a sahip validatörleri "active", diğerlerini "waiting" olarak kabul et
+      const status = validator.uptime >= 99 ? 'active' : 'waiting';
+      return status === selectedFilter;
+    });
 
   return (
     <main className="min-h-screen bg-background">
@@ -129,28 +133,31 @@ export default function ValidatorPage() {
           </div>
           
           {/* Filters */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            <Button 
-              variant={selectedFilter === 'all' ? 'primary' : 'outline'} 
-              size="sm" 
-              onClick={() => setSelectedFilter('all')}
-            >
-              Tüm Validatörler
-            </Button>
-            <Button 
-              variant={selectedFilter === 'active' ? 'primary' : 'outline'} 
-              size="sm" 
-              onClick={() => setSelectedFilter('active')}
-            >
-              Aktif
-            </Button>
-            <Button 
-              variant={selectedFilter === 'waiting' ? 'primary' : 'outline'} 
-              size="sm" 
-              onClick={() => setSelectedFilter('waiting')}
-            >
-              Bekleme Sırasında
-            </Button>
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-3">Validatör Durumu</h3>
+            <div className="flex flex-wrap gap-2">
+              <Button 
+                variant={selectedFilter === 'all' ? 'primary' : 'outline'} 
+                size="sm" 
+                onClick={() => setSelectedFilter('all')}
+              >
+                Tüm Validatörler ({validators.length})
+              </Button>
+              <Button 
+                variant={selectedFilter === 'active' ? 'primary' : 'outline'} 
+                size="sm" 
+                onClick={() => setSelectedFilter('active')}
+              >
+                Aktif ({validators.filter(v => v.uptime >= 99).length})
+              </Button>
+              <Button 
+                variant={selectedFilter === 'waiting' ? 'primary' : 'outline'} 
+                size="sm" 
+                onClick={() => setSelectedFilter('waiting')}
+              >
+                Bekleme Sırasında ({validators.filter(v => v.uptime < 99).length})
+              </Button>
+            </div>
           </div>
           
           {/* Validator List */}
@@ -178,28 +185,34 @@ export default function ValidatorPage() {
                       </div>
                     </div>
                     <div className={`px-2 py-1 text-xs rounded-full ${
-                      validator.status === 'active' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'
+                      validator.uptime >= 99 ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'
                     }`}>
-                      {validator.status === 'active' ? 'Aktif' : 'Beklemede'}
+                      {validator.uptime >= 99 ? 'Aktif' : 'Beklemede'}
                     </div>
                   </div>
+                  
+                  {validator.description && (
+                    <div className="mb-4">
+                      <p className="text-sm text-secondary line-clamp-2">{validator.description}</p>
+                    </div>
+                  )}
                   
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="bg-background-secondary rounded-lg p-3">
                       <p className="text-xs text-secondary mb-1">Komisyon</p>
-                      <p className="font-semibold">{validator.commission || "5"}%</p>
+                      <p className="font-semibold">{validator.commission}%</p>
                     </div>
                     <div className="bg-background-secondary rounded-lg p-3">
                       <p className="text-xs text-secondary mb-1">APY</p>
-                      <p className="font-semibold">{validator.apy || "5.2"}%</p>
+                      <p className="font-semibold">{(validator.commission < 5 ? 6.2 : 5.2).toFixed(1)}%</p>
                     </div>
                     <div className="bg-background-secondary rounded-lg p-3">
                       <p className="text-xs text-secondary mb-1">Total Stake</p>
-                      <p className="font-semibold">{validator.totalStake?.toLocaleString() || "95,000"}</p>
+                      <p className="font-semibold">{Number(validator.totalStaked).toLocaleString()}</p>
                     </div>
                     <div className="bg-background-secondary rounded-lg p-3">
                       <p className="text-xs text-secondary mb-1">Stakers</p>
-                      <p className="font-semibold">{validator.stakers || "120"}</p>
+                      <p className="font-semibold">{validator.userCount}</p>
                     </div>
                   </div>
                   
@@ -230,7 +243,7 @@ export default function ValidatorPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="p-6">
               <h3 className="text-xl font-semibold mb-3">Validator nedir?</h3>
-              <p className="text-secondary">Validatörler, Monad ağında işlemleri doğrulayan ve ağın güvenliğini sağlayan düğümlerdir. Bu hizmet karşılığında ödül alırlar ve bu ödüllerin bir kısmını stake eden kullanıcılarla paylaşırlar.</p>
+              <p className="text-secondary">Validatörler, Monad ağında işlemleri doğrulayan ve ağın güvenliğini sağlayan düğümlerdir. Bu hizmet karşılığında ödül alırlar ve bu ödüllerin bir kısmını stake eden kullanıcılarla paylaşırlar. Monad ağında %99 ve üzeri uptime ile çalışan validatörler aktif kabul edilir.</p>
             </Card>
             
             <Card className="p-6">
